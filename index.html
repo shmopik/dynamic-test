@@ -3,7 +3,7 @@
     <script lang="javascript">
       parseCsvToArray = function(csv,delimiter = ","){
         const headers = csv.slice(0, csv.indexOf("\n")).split(delimiter);
-        const rows = csv.slice(str.indexOf("\n") + 1).split("\n");
+        const rows = csv.slice(csv.indexOf("\n") + 1).split("\n");
 
         const arr = rows.map(function (row) {
           const values = row.split(delimiter);
