@@ -109,7 +109,7 @@
           const itemContainer = findOrCreateGroup(section, groupId, groupName, subgroupId, subgroupName, ltr);
           const price = happy ? spiritItem["price-happy"] : spiritItem["price-evening"];
           const name = spiritItem["name-" + langId.toLowerCase()];
-          createSpiritItem(enItemContainer, name, price);
+          createSpiritItem(itemContainer, name, price);
         })
       }
       
