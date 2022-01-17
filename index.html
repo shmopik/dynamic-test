@@ -68,7 +68,10 @@
         return itemsContainer;
       }
       
-      createSpiritItem = function(container, name, itemPrice){
+      createSpiritItem = function(container, item, langId){
+        const name = item["name-" + langId.toLowerCase()];
+        const itemPrice = HAPPY ? item["price-happy"] : item["price-evening"];
+        
         const itemEl = document.createElement("div");
         itemEl.className = "item";
         container.appendChild(itemEl);
@@ -108,9 +111,7 @@
           const subgroupName = item["subcategory-" + langId.toLowerCase()];
           
           const itemContainer = findOrCreateGroup(section, groupId, groupName, subgroupId, subgroupName, ltr);
-          const price = happy ? item["price-happy"] : item["price-evening"];
-
-          itemParser(itemContainer, name, price);
+          itemParser(itemContainer, item, langId);
         })
       }
       
