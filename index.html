@@ -113,6 +113,16 @@
         })
       }
       
+      SECTIONS = [
+        { id : "spirits", file : "test.csv", parser : readSpiritsSection }
+      ];
+      
+      LANGAUGES = [
+        { id : "HE", ltr : false }, 
+        { id : "EN", ltr : true}
+      ];
+      
+      HAPPY = false;
       let currentLanguageIndex = Number.parseInt(window.localStorage.getItem("lang")) || 0;
 
       setActiveMenu = function(){
@@ -134,17 +144,6 @@
           window.localStorage.setItem("lang", currentLanguageIndex.toString());
           setActiveMenu();
       }
-      
-      SECTIONS = [
-        { id : "spirits", file : "test.csv", parser : readSpiritsSection }
-      ];
-      
-      LANGAUGES = [
-        { id : "HE", ltr : false }, 
-        { id : "EN", ltr : true}
-      ];
-      
-      HAPPY = false;
 
       window.onload = function(){
           LANGAUGES.forEach(lang => {
