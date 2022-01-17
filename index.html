@@ -105,7 +105,7 @@
           const subgroupId = spiritItem["subcategory-en"];
           
           const enItemContainer = findOrCreateGroup(enSection, groupId, groupId, subgroupId, subgroupId);
-          const heItemContainer = findOrCreateGroup(enSection, groupId + "-he", spiritItem["category-he"], subgroupId, spiritItem["subcategory-he"]);
+          const heItemContainer = findOrCreateGroup(heSection, groupId + "-he", spiritItem["category-he"], subgroupId, spiritItem["subcategory-he"]);
           
           createSpiritItem(enItemContainer, spiritItem["name-en"], spiritItem[happy ? "price-happy" : "price-evening"]);
           createSpiritItem(heItemContainer, spiritItem["name-he"], spiritItem[happy ? "price-happy" : "price-evening"]);
