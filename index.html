@@ -112,8 +112,44 @@
         { id : "spirits", file : "test.csv", parser : readSpiritsSection }
       ];
       
+      LANGAUGES = ["HE", "EN"];
+      let currentLanguageIndex = Number.parseInt(window.localStorage.getItem("lang")) || 0;
+
+      setActiveMenu = function(){
+          let menus = document.getElementsByClassName("lang-menu");
+          for (let i = 0; i < menus.length; i++) {
+              if (menus[i].id === LANGAUGES[currentLanguageIndex]){
+                  menus[i].style.display = "block";
+                  document.getElementById("lang-container").children[i].classList.add("active");
+              }
+              else{
+                  menus[i].style.display = "none";
+                  document.getElementById("lang-container").children[i].classList.remove("active");
+              }
+          }
+      }
+
+      onLangTagClick = function(e){
+          currentLanguageIndex = LANGAUGES.indexOf(e.target.innerText);
+          window.localStorage.setItem("lang", currentLanguageIndex.toString());
+          setActiveMenu();
+      }
+
       window.onload = function(){
-        sections.forEach(section => {
+          LANGAUGES.forEach(lang => {
+              let langTag = document.createElement("div");
+              langTag.innerText = lang;
+              langTag.className = "lang-tag"
+              langTag.addEventListener("click", onLangTagClick)
+              if (LANGAUGES[currentLanguageIndex] === lang){
+                  langTag.classList.add("active");
+              }
+              document.getElementById("lang-container").appendChild(langTag);
+          })
+
+          setActiveMenu();
+        
+          sections.forEach(section => {
           fetch(section.file)
             .then(response => response.text())
             .then(text => {
@@ -122,45 +158,6 @@
             })
         })
       }
-    </script>
-        <script lang="javascript">
-        LANGAUGES = ["HE", "EN"];
-        let currentLanguageIndex = Number.parseInt(window.localStorage.getItem("lang")) || 0;
-
-        setActiveMenu = function(){
-            let menus = document.getElementsByClassName("lang-menu");
-            for (let i = 0; i < menus.length; i++) {
-                if (menus[i].id === LANGAUGES[currentLanguageIndex]){
-                    menus[i].style.display = "block";
-                    document.getElementById("lang-container").children[i].classList.add("active");
-                }
-                else{
-                    menus[i].style.display = "none";
-                    document.getElementById("lang-container").children[i].classList.remove("active");
-                }
-            }
-        }
-
-        onLangTagClick = function(e){
-            currentLanguageIndex = LANGAUGES.indexOf(e.target.innerText);
-            window.localStorage.setItem("lang", currentLanguageIndex.toString());
-            setActiveMenu();
-        }
-
-        window.onload = function(){
-            LANGAUGES.forEach(lang => {
-                let langTag = document.createElement("div");
-                langTag.innerText = lang;
-                langTag.className = "lang-tag"
-                langTag.addEventListener("click", onLangTagClick)
-                if (LANGAUGES[currentLanguageIndex] === lang){
-                    langTag.classList.add("active");
-                }
-                document.getElementById("lang-container").appendChild(langTag);
-            })
-
-            setActiveMenu();
-        }
     </script>
     <style>
         body{
