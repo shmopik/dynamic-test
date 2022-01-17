@@ -140,7 +140,7 @@
       }
 
       onLangTagClick = function(e){
-          window.localStorage.setItem("lang", currentLanguage);
+          window.localStorage.setItem("lang", e.target.innerText);
           setActiveMenu();
       }
 
