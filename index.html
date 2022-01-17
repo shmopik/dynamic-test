@@ -129,7 +129,7 @@
       setActiveMenu = function(){
           let menus = document.getElementsByClassName("lang-menu");
           for (let i = 0; i < menus.length; i++) {
-              if (menus[i].id === LANGAUGES[currentLanguageIndex]){
+              if (menus[i].id === LANGAUGES[currentLanguageIndex].id){
                   menus[i].style.display = "block";
                   document.getElementById("lang-container").children[i].classList.add("active");
               }
@@ -148,23 +148,28 @@
 
       window.onload = function(){
           LANGAUGES.forEach(lang => {
-              let langTag = document.createElement("div");
-              langTag.innerText = lang.id;
-              langTag.className = "lang-tag"
-              langTag.addEventListener("click", onLangTagClick)
-              if (LANGAUGES[currentLanguageIndex] === lang){
-                  langTag.classList.add("active");
-              }
-              document.getElementById("lang-container").appendChild(langTag);
+            const langTag = document.createElement("div");
+            langTag.innerText = lang.id;
+            langTag.className = "lang-tag"
+            langTag.addEventListener("click", onLangTagClick)
+            if (LANGAUGES[currentLanguageIndex] === lang){
+                langTag.classList.add("active");
+            }
+            document.getElementById("lang-container").appendChild(langTag);
             
-          SECTIONS.forEach(section => {
-            fetch(section.file)
-              .then(response => response.text())
-              .then(text => {
-                 const json = parseCsvToArray(text);
-                 section.parser(json, lang.id, lang.ltr, HAPPY);
-              })
-          })
+            const langMenu = document.createElement("div");
+            langMenu.id = lang.id;
+            langMenu.className = "lang-menu";
+            document.getElementById("menus-container").appendChild(langMenu);
+
+            SECTIONS.forEach(section => {
+              fetch(section.file)
+                .then(response => response.text())
+                .then(text => {
+                   const json = parseCsvToArray(text);
+                   section.parser(json, lang.id, lang.ltr, HAPPY);
+                })
+            })
 
           setActiveMenu();
         })
@@ -355,7 +360,6 @@
             <div style="font-size: 36px; margin-left: 20px; text-decoration: none; color: white; cursor: text">054-586-9430</div>
         </div>
     </div>
-    <div id="HE" class="lang-menu"></div>
-    <div id="EN" class="lang-menu"></div>
+    <div id="menus-container"></div>
   </body>
 </html>
