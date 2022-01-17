@@ -5,6 +5,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
     <script lang="javascript">
+      SECTIONS = [
+        { id : "spirits", file : "test.csv", parser : readSpiritsSection }
+      ];
+      
+      LANGAUGES = [
+        { id : "HE", ltr : false }, 
+        { id : "EN", ltr : true}
+      ];
+      
+      HAPPY = false;
+      
       parseCsvToArray = function(csv,delimiter = ","){
         const headers = csv.slice(0, csv.indexOf("\n")).split(delimiter);
         const rows = csv.slice(csv.indexOf("\n") + 1).split("\n");
@@ -88,39 +99,31 @@
         priceContainer.appendChild(nis);
       }
       
-      readSpiritsSection = function(spiritsArray, happy = false){
-        const enMenu = document.getElementById("EN");
-        const heMenu = document.getElementById("HE");
+      readSpiritsSection = function(spiritsArray, langId, ltr, happy = false){
+        const menu = document.getElementById(langId);
 
-        const enSection = document.createElement("div");
-        enSection.className = "section";
-        enMenu.appendChild(enSection);
-        
-        const heSection = document.createElement("div");
-        heSection.className = "section";
-        heMenu.appendChild(heSection);
+        const section = document.createElement("div");
+        section.className = "section";
+        menu.appendChild(section);
         
         spiritsArray.forEach(spiritItem => {
-          const groupId = spiritItem["category-en"];
-          
-          if (!groupId)
+          const groupIdBase = spiritItem["category-en"];
+          if (!groupIdBase)
             return;
           
-          const subgroupId = spiritItem["subcategory-en"];
+          const groupId = (groupIdBase + "-" + langId).toLowerCase();
+          const groupName = spiritItem["category-" + langId.toLowerCase()];
+          const subgroupIdBase = spiritItem["subcategory-en"];
+          const subgroupId = (groupIdBase + "-" + langId).toLowerCase();
+          const subgroupName = spiritItem["subcategory-" + langId.toLowerCase()];
           
-          const enItemContainer = findOrCreateGroup(enSection, groupId, groupId, subgroupId, subgroupId, true);
-          const heItemContainer = findOrCreateGroup(heSection, groupId + "-he", spiritItem["category-he"], subgroupId, spiritItem["subcategory-he"], false);
-          const price = happy ? spiritItem["price-happy"] : spiritItem["price-evening"]
-          createSpiritItem(enItemContainer, spiritItem["name-en"], price);
-          createSpiritItem(heItemContainer, spiritItem["name-he"], price);
+          const itemContainer = findOrCreateGroup(section, groupId, groupName, subgroupId, subgroupName, ltr);
+          const price = happy ? spiritItem["price-happy"] : spiritItem["price-evening"];
+          const name = spiritItem["name-" + langId.toLowerCase()];
+          createSpiritItem(enItemContainer, name, price);
         })
       }
       
-      const sections = [
-        { id : "spirits", file : "test.csv", parser : readSpiritsSection }
-      ];
-      
-      LANGAUGES = ["HE", "EN"];
       let currentLanguageIndex = Number.parseInt(window.localStorage.getItem("lang")) || 0;
 
       setActiveMenu = function(){
@@ -146,24 +149,24 @@
       window.onload = function(){
           LANGAUGES.forEach(lang => {
               let langTag = document.createElement("div");
-              langTag.innerText = lang;
+              langTag.innerText = lang.id;
               langTag.className = "lang-tag"
               langTag.addEventListener("click", onLangTagClick)
               if (LANGAUGES[currentLanguageIndex] === lang){
                   langTag.classList.add("active");
               }
               document.getElementById("lang-container").appendChild(langTag);
+            
+          SECTIONS.forEach(section => {
+            fetch(section.file)
+              .then(response => response.text())
+              .then(text => {
+                 const json = parseCsvToArray(text);
+                 section.parser(json, lang.id, lang.ltr, HAPPY);
+              })
           })
 
           setActiveMenu();
-        
-          sections.forEach(section => {
-          fetch(section.file)
-            .then(response => response.text())
-            .then(text => {
-               const json = parseCsvToArray(text);
-               section.parser(json);
-            })
         })
       }
     </script>
