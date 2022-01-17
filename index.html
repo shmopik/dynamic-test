@@ -17,8 +17,95 @@
         return arr;
       }
       
+      findOrCreateGroup = function(section, groupId, groupName, subgroupId, subgroupName){
+        let group = document.getElementById(groupId);
+        if (group === null){
+          group = document.createElement("div");
+          group.className = "group";
+          group.id = groupId;
+          section.appendChild(group);
+
+          let groupHeader = document.createElement("div");
+          groupHeader.className = "header";
+          groupHeader.id = groupId + "-header";
+          groupHeader.innerText = groupName;
+          group.appendChild(groupHeader);
+        }
+
+        const groupContainerId = subgroupId ? groupId + "-" + subgroupId + "-group-container" : groupId + "-group-container";
+        let groupContainer = document.getElementById(groupContainerId);
+        if (groupContainer === null){
+          groupContainer = document.createElement("div");
+          groupContainer.className = "group-container";
+          groupContainer.id = groupContainerId;
+          group.appendChild(groupContainer);
+          
+          if (subgroupId){
+            const subgroupHeader = document.createElement("div");
+            subgroupHeader.className = "group-header";
+            groupContainer.appendChild(subgroupHeader);
+            
+            const subgroupHeaderText = document.createElement("div");
+            subgroupHeaderText.className = "group-header-text";
+            subgroupHeaderText.innerText = subgroupName;
+            subgroupHeader.appendChild(subgroupHeaderText);
+          }
+        }
+        
+        const itemsContainerId = subgroupId ? groupId + "-" + subgroupId + "-items-container" : groupId + "-items-container";
+        let itemsContainer = document.getElementById(itemsContainerId);
+        if (itemsContainer === null){
+          itemsContainer = document.createElement("div");
+          itemsContainer.id = itemsContainerId;
+          itemsContainer.className = "items-container";
+          groupContainer.appendChild(itemsContainer);
+        }
+        
+        return itemsContainer;
+      }
+      
+      createSpiritItem = function(container, name, itemPrice){
+        const itemEl = document.createElement("div");
+        itemEl.className = "item";
+        container.appendChild(itemEl);
+        
+        const itemName = document.createElement("div");
+        itemName.innerText = name;
+        itemEl.appendChild(itemName);
+        
+        const priceContainer = document.createElement("div");
+        itemEl.appendChild(priceContainer);
+        
+        const price = document.creatElement("span");
+        price.innerText = itemPrice;
+        priceContainer.appendChild(price);
+        const nis = document.creatElement("span");
+        price.innerText = "&#8362";
+        priceContainer.appendChild(nis);
+      }
+      
       readSpiritsSection = function(spiritsArray, happy = false){
-        console.log(JSON.stringify(spiritsArray));
+        const enMenu = document.getElemntById("EN");
+        const heMenu = document.getElemntById("HE");
+
+        const enSection = document.createElement("div");
+        enSection.className = "section";
+        enMenu.appendChild(enSection);
+        
+        const heSection = document.createElement("div");
+        heSection.className = "section";
+        heMenu.appendChild(heSection);
+        
+        spiritsArray.forEach(spiritItem => {
+          const groupId = spiritItem["category-en"];
+          const subgroupId = spiritItem["subcategory-en"];
+          
+          const enItemContainer = findOrCreateGroup(enSection, groupId, groupId, subgroupId, subgroupId);
+          const heItemContainer = findOrCreateGroup(enSection, groupId + "-he", spiritItem["category-he"], subgroupId, spiritItem["subcategory-he"]);
+          
+          createSpiritItem(enItemContainer, spiritItem["name-en"], spiritItem[happy ? "price-happy" : "price-evening"]);
+          createSpiritItem(heItemContainer, spiritItem["name-he"], spiritItem[happy ? "price-happy" : "price-evening"]);
+        })
       }
       
       const sections = [
@@ -36,8 +123,230 @@
         })
       }
     </script>
+        <script lang="javascript">
+        LANGAUGES = ["HE", "EN"];
+        let currentLanguageIndex = Number.parseInt(window.localStorage.getItem("lang")) || 0;
+
+        setActiveMenu = function(){
+            let menus = document.getElementsByClassName("lang-menu");
+            for (let i = 0; i < menus.length; i++) {
+                if (menus[i].id === LANGAUGES[currentLanguageIndex]){
+                    menus[i].style.display = "block";
+                    document.getElementById("lang-container").children[i].classList.add("active");
+                }
+                else{
+                    menus[i].style.display = "none";
+                    document.getElementById("lang-container").children[i].classList.remove("active");
+                }
+            }
+        }
+
+        onLangTagClick = function(e){
+            currentLanguageIndex = LANGAUGES.indexOf(e.target.innerText);
+            window.localStorage.setItem("lang", currentLanguageIndex.toString());
+            setActiveMenu();
+        }
+
+        window.onload = function(){
+            LANGAUGES.forEach(lang => {
+                let langTag = document.createElement("div");
+                langTag.innerText = lang;
+                langTag.className = "lang-tag"
+                langTag.addEventListener("click", onLangTagClick)
+                if (LANGAUGES[currentLanguageIndex] === lang){
+                    langTag.classList.add("active");
+                }
+                document.getElementById("lang-container").appendChild(langTag);
+            })
+
+            setActiveMenu();
+        }
+    </script>
+    <style>
+        body{
+            background: black;
+            color: white;
+            font-family: Heebo,serif;
+        }
+
+        .group{
+            margin: 64px 64px 48px 64px;
+        }
+
+        .group:last-child{
+            margin-bottom: 0;
+        }
+
+        .header{
+            background: white;
+            color: black;
+            font-size: 48px;
+            text-align: right;
+            padding: 0 12px;
+            font-weight: 500;
+        }
+
+        .header.ltr{
+            text-align: left;
+        }
+
+        .group-container{
+            display: flex;
+            direction: rtl;
+            margin-top:18px;
+        }
+
+        .group-container.ltr{
+            direction: ltr;
+        }
+
+        .group-header{
+            background: #f7b400;
+            padding: 8px 0;
+        }
+
+        .group-header.medium{
+            background: #f9c533;
+        }
+
+        .group-header.light{
+            background: #fad266;
+        }
+
+        .group-header-text{
+            color: black;
+            transform: rotate(-90deg);
+            line-height: 36px;
+            font-size: 36px;
+            font-weight: 500;
+            width: 40px;
+            white-space: nowrap;
+        }
+
+        .group-header-text.ltr{
+            transform: rotate(90deg);
+            text-transform: uppercase;
+        }
+
+        .items-container{
+            flex-grow: 1;
+            margin: 0 12px;
+        }
+
+        .item{
+            display: flex;
+            justify-content: space-between;
+            font-size: 36px;
+            margin-bottom: 12px;
+            white-space: nowrap;
+        }
+
+        .item-description{
+            font-size: 30px;
+            margin-top: -12px;
+            white-space: normal;
+        }
+
+        .item-extra{
+            font-size: 30px;
+            margin-top: -6px;
+            font-weight: bold;
+        }
+
+        .main-description{
+            font-weight: 600;
+        }
+
+        .comment{
+            font-size: 16px;
+            margin: 16px 64px;
+            direction: rtl;
+        }
+
+        .comment.ltr{
+            direction: ltr;
+        }
+
+        .item-title{
+            display: flex;
+        }
+
+        .vegeterian{
+            background-image: url("./vegeterian-light.png");
+            width: 36px;
+            height: 36px;
+            margin: 0 12px;
+            background-size: 100%;
+            position: relative;
+            top: 6px;
+        }
+
+        .spicy{
+            background-image: url("./spicy-light.png");
+            width: 36px;
+            height: 36px;
+            margin: 0 12px;
+            background-size: 100%;
+            position: relative;
+            top: 6px;
+        }
+
+        .whatsapp{
+            background-image: url("./whatsapp-white.png");
+            width: 60px;
+            height: 60px;
+            background-size: 100%;
+        }
+
+        .instagram{
+            background-image: url("./instagram-white.png");
+            width: 60px;
+            height: 60px;
+            background-size: 100%;
+        }
+
+        #lang-container{
+            height: 60px;
+            display: flex;
+            color: white;
+            font-size: 36px;
+            margin-top: 30px;
+            margin-left: 40px;
+        }
+
+        #lang-container > * {
+            margin-left: 20px;
+        }
+        
+        .lang-menu{
+            display: none;
+        }
+
+        .lang-tag{
+            opacity: 0.6;
+        }
+
+        .lang-tag.active{
+            opacity: 1;
+            font-weight: bold;
+        }
+    </style>
   </head>
   <body>
+    <div id="lang-container"></div>
+    <div style="margin: 24px 0 24px 0">
+        <img src="./evening-header.png" style="width:100%">
+    </div>
+    <div style="display: flex; justify-content: space-between; margin: 0 110px;">
+        <div style="display: flex;align-items: center">
+            <div class="instagram"></div>
+            <div style="font-size: 36px; margin-left: 20px">@brancabartlv</div>
+        </div>
+        <div style="display: flex;align-items: center">
+            <div class="whatsapp"></div>
+            <div style="font-size: 36px; margin-left: 20px; text-decoration: none; color: white; cursor: text">054-586-9430</div>
+        </div>
+    </div>
     <div id="HE" class="lang-menu"></div>
     <div id="EN" class="lang-menu"></div>
   </body>
