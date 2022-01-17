@@ -20,7 +20,10 @@
       }
       
       window.onload = function(){
-        readTextFile('test.csv');
+        //readTextFile('test.csv');
+        fetch('test.csv')
+          .then(response => response.text())
+          .then(text => console.log(text))
       }
     </script>
   </head>
