@@ -1,9 +1,9 @@
 <html>
   <head>
     <script lang="javascript">
-      parseSectionCsv = function(str,delimiter = ","){
-        const headers = str.slice(0, str.indexOf("\n")).split(delimiter);
-        const rows = str.slice(str.indexOf("\n") + 1).split("\n");
+      parseCsvToArray = function(csv,delimiter = ","){
+        const headers = csv.slice(0, csv.indexOf("\n")).split(delimiter);
+        const rows = csv.slice(str.indexOf("\n") + 1).split("\n");
 
         const arr = rows.map(function (row) {
           const values = row.split(delimiter);
@@ -17,17 +17,28 @@
         return arr;
       }
       
+      readSpiritsSection = function(spiritsArray, happy = false){
+        console.log(JSON.stringify(spiritsArray));
+      }
+      
+      const sections = [
+        { id : "spirits", file : "test.csv", parser : readSpiritsSection }
+      ];
+      
       window.onload = function(){
-        fetch('test.csv')
-          .then(response => response.text())
-          .then(text => {
-             const json = parseSectionCsv(text);
-             document.getElementById('text').innerHTML = JSON.stringify(json);
-          })
+        sections.forEach(section => {
+          fetch(section.file)
+            .then(response => response.text())
+            .then(text => {
+               const json = parseCsvToArray(text);
+               section.parser(json);
+            })
+        })
       }
     </script>
   </head>
   <body>
-    <div id="text"></div>
+    <div id="HE" class="lang-menu"></div>
+    <div id="EN" class="lang-menu"></div>
   </body>
 </html>
