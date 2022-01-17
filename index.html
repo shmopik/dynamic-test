@@ -21,7 +21,7 @@
         return arr;
       }
       
-      findOrCreateGroup = function(section, groupId, groupName, subgroupId, subgroupName){
+      findOrCreateGroup = function(section, groupId, groupName, subgroupId, subgroupName, ltr){
         let group = document.getElementById(groupId);
         if (group === null){
           group = document.createElement("div");
@@ -30,7 +30,7 @@
           section.appendChild(group);
 
           let groupHeader = document.createElement("div");
-          groupHeader.className = "header";
+          groupHeader.className = "header" + (ltr ? " ltr" : "");
           groupHeader.id = groupId + "-header";
           groupHeader.innerText = groupName;
           group.appendChild(groupHeader);
@@ -40,7 +40,7 @@
         let groupContainer = document.getElementById(groupContainerId);
         if (groupContainer === null){
           groupContainer = document.createElement("div");
-          groupContainer.className = "group-container";
+          groupContainer.className = "group-container" + (ltr ? " ltr" : "");
           groupContainer.id = groupContainerId;
           group.appendChild(groupContainer);
           
@@ -50,7 +50,7 @@
             groupContainer.appendChild(subgroupHeader);
             
             const subgroupHeaderText = document.createElement("div");
-            subgroupHeaderText.className = "group-header-text";
+            subgroupHeaderText.className = "group-header-text" + (ltr ? " ltr" : "");
             subgroupHeaderText.innerText = subgroupName;
             subgroupHeader.appendChild(subgroupHeaderText);
           }
@@ -102,10 +102,14 @@
         
         spiritsArray.forEach(spiritItem => {
           const groupId = spiritItem["category-en"];
+          
+          if (!groupId)
+            return;
+          
           const subgroupId = spiritItem["subcategory-en"];
           
-          const enItemContainer = findOrCreateGroup(enSection, groupId, groupId, subgroupId, subgroupId);
-          const heItemContainer = findOrCreateGroup(heSection, groupId + "-he", spiritItem["category-he"], subgroupId, spiritItem["subcategory-he"]);
+          const enItemContainer = findOrCreateGroup(enSection, groupId, groupId, subgroupId, subgroupId, true);
+          const heItemContainer = findOrCreateGroup(heSection, groupId + "-he", spiritItem["category-he"], subgroupId, spiritItem["subcategory-he"], false);
           const price = happy ? spiritItem["price-happy"] : spiritItem["price-evening"]
           createSpiritItem(enItemContainer, spiritItem["name-en"], price);
           createSpiritItem(heItemContainer, spiritItem["name-he"], price);
