@@ -96,10 +96,11 @@
         menu.appendChild(section);
         
         spiritsArray.forEach(spiritItem => {
-          const groupIdBase = spiritItem["category-en"];
-          if (!groupIdBase)
+          const name = spiritItem["name-" + langId.toLowerCase()];
+          if (!name)
             return;
           
+          const groupIdBase = spiritItem["category-en"];
           const groupId = (groupIdBase + "-" + langId).toLowerCase();
           const groupName = spiritItem["category-" + langId.toLowerCase()];
           const subgroupIdBase = spiritItem["subcategory-en"];
@@ -108,7 +109,7 @@
           
           const itemContainer = findOrCreateGroup(section, groupId, groupName, subgroupId, subgroupName, ltr);
           const price = happy ? spiritItem["price-happy"] : spiritItem["price-evening"];
-          const name = spiritItem["name-" + langId.toLowerCase()];
+
           createSpiritItem(itemContainer, name, price);
         })
       }
