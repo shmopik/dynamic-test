@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <script lang="javascript">
+      readTextFile = function(file)
+      {
+          let rawFile = new XMLHttpRequest();
+          rawFile.open("GET", file, false);
+          rawFile.onreadystatechange = function ()
+          {
+              if(rawFile.readyState === 4)
+              {
+                  if(rawFile.status === 200 || rawFile.status == 0)
+                  {
+                      let allText = rawFile.responseText;
+                      document.getElementById('text').innerHTML = allText
+                  }
+              }
+          }
+          rawFile.send(null);
+      }
+      
+      readTextFile('test.csv')
+    </script>
+  </head>
+  <body>
+    <div id="text"></div>
+  </body>
+</html>
