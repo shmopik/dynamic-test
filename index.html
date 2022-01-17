@@ -88,34 +88,34 @@
         priceContainer.appendChild(nis);
       }
       
-      readSpiritsSection = function(spiritsArray, langId, ltr, happy = false){
+      readSection = function(array, langId, ltr, itemParser, happy = false){
         const menu = document.getElementById(langId);
 
         const section = document.createElement("div");
         section.className = "section";
         menu.appendChild(section);
         
-        spiritsArray.forEach(spiritItem => {
-          const name = spiritItem["name-" + langId.toLowerCase()];
+        array.forEach(item => {
+          const name = item["name-" + langId.toLowerCase()];
           if (!name)
             return;
           
-          const groupIdBase = spiritItem["category-en"];
+          const groupIdBase = item["category-en"];
           const groupId = (groupIdBase + "-" + langId).toLowerCase();
-          const groupName = spiritItem["category-" + langId.toLowerCase()];
-          const subgroupIdBase = spiritItem["subcategory-en"];
+          const groupName = item["category-" + langId.toLowerCase()];
+          const subgroupIdBase = item["subcategory-en"];
           const subgroupId = subgroupIdBase ? (subgroupIdBase + "-" + langId).toLowerCase() : null;
-          const subgroupName = spiritItem["subcategory-" + langId.toLowerCase()];
+          const subgroupName = item["subcategory-" + langId.toLowerCase()];
           
           const itemContainer = findOrCreateGroup(section, groupId, groupName, subgroupId, subgroupName, ltr);
-          const price = happy ? spiritItem["price-happy"] : spiritItem["price-evening"];
+          const price = happy ? item["price-happy"] : item["price-evening"];
 
-          createSpiritItem(itemContainer, name, price);
+          itemParser(itemContainer, name, price);
         })
       }
       
       SECTIONS = [
-        { id : "spirits", file : "test.csv", parser : readSpiritsSection }
+        { id : "spirits", file : "test.csv", itemParser : createSpiritItem }
       ];
       
       LANGAUGES = [
@@ -167,7 +167,7 @@
                 .then(response => response.text())
                 .then(text => {
                    const json = parseCsvToArray(text);
-                   section.parser(json, lang.id, lang.ltr, HAPPY);
+                   readSection(json, lang.id, lang.ltr, section.itemParser, HAPPY);
                 })
             })
 
