@@ -123,12 +123,12 @@
       ];
       
       HAPPY = false;
-      currentLanguageIndex = Number.parseInt(window.localStorage.getItem("lang")) || 0;
+      currentLanguage = window.localStorage.getItem("lang") || LANGAUGES[0].id;
 
       setActiveMenu = function(){
           let menus = document.getElementsByClassName("lang-menu");
           for (let i = 0; i < menus.length; i++) {
-              if (menus[i].id === LANGAUGES[currentLanguageIndex].id){
+              if (menus[i].id === currentLanguage){
                   menus[i].style.display = "block";
                   document.getElementById("lang-container").children[i].classList.add("active");
               }
@@ -140,8 +140,7 @@
       }
 
       onLangTagClick = function(e){
-          currentLanguageIndex = LANGAUGES.indexOf(e.target.innerText);
-          window.localStorage.setItem("lang", currentLanguageIndex.toString());
+          window.localStorage.setItem("lang", currentLanguage);
           setActiveMenu();
       }
 
@@ -151,7 +150,7 @@
             langTag.innerText = lang.id;
             langTag.className = "lang-tag"
             langTag.addEventListener("click", onLangTagClick)
-            if (LANGAUGES[currentLanguageIndex] === lang){
+            if (currentLanguage === lang){
                 langTag.classList.add("active");
             }
             document.getElementById("lang-container").appendChild(langTag);
