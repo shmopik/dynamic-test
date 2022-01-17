@@ -1,7 +1,7 @@
 <html>
   <head>
     <script lang="javascript">
-      parseSectionCsv = function(content){
+      parseSectionCsv = function(str,delimiter = ","){
         const headers = str.slice(0, str.indexOf("\n")).split(delimiter);
         const rows = str.slice(str.indexOf("\n") + 1).split("\n");
 
