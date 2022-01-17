@@ -4,18 +4,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
-    <script lang="javascript">
-      SECTIONS = [
-        { id : "spirits", file : "test.csv", parser : readSpiritsSection }
-      ];
-      
-      LANGAUGES = [
-        { id : "HE", ltr : false }, 
-        { id : "EN", ltr : true}
-      ];
-      
-      HAPPY = false;
-      
+    <script lang="javascript">      
       parseCsvToArray = function(csv,delimiter = ","){
         const headers = csv.slice(0, csv.indexOf("\n")).split(delimiter);
         const rows = csv.slice(csv.indexOf("\n") + 1).split("\n");
@@ -145,6 +134,17 @@
           window.localStorage.setItem("lang", currentLanguageIndex.toString());
           setActiveMenu();
       }
+      
+      SECTIONS = [
+        { id : "spirits", file : "test.csv", parser : readSpiritsSection }
+      ];
+      
+      LANGAUGES = [
+        { id : "HE", ltr : false }, 
+        { id : "EN", ltr : true}
+      ];
+      
+      HAPPY = false;
 
       window.onload = function(){
           LANGAUGES.forEach(lang => {
