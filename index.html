@@ -91,6 +91,65 @@
         priceContainer.appendChild(nis);
       }
       
+      createDrinkItem = function(container, item, langId){
+        const name = item["name-" + langId.toLowerCase()];
+        const itemPrice = HAPPY ? item["price-happy"] : item["price-evening"];
+        const itemPriceSmall = HAPPY ? item["price-happy-small"] : item["price-evening-small"];
+        const mainDesc = item["main-desc-" + langId.toLowerCase()];
+        const otherDesc = item["other-desc-" + langId.toLowerCase()];
+        
+        const itemEl = document.createElement("div");
+        itemEl.className = "item";
+        container.appendChild(itemEl);
+        
+        if (mainDesc){
+          const nameContainer = document.createElement("div");
+          itemEl.appendChild(nameContainer);
+          
+          const itemName = document.createElement("div");
+          itemName.innerText = name;
+          nameContainer.appendChild(itemName);
+          
+          const descEl = document.createElement("div");
+          descEl.className = "item-description";
+          nameContainer.appendChild(descEl);
+          
+          const mainDescEl = document.createElement("span");
+          mainDescEl.className = "main-description";
+          mainDescEl.innerText = mainDesc;
+          descEl.appendChild(mainDescEl);
+          const otherDescEl = document.createElement("span");
+          otherDescEl.innerText = otherDesc;
+          descEl.appendChild(otherDescEl);
+        } else {
+          const itemName = document.createElement("div");
+          itemName.innerText = name;
+          itemEl.appendChild(itemName);
+        }
+        
+        const priceContainer = document.createElement("div");
+        itemEl.appendChild(priceContainer);
+        
+        const price = document.createElement("span");
+        price.innerText = itemPrice;
+        priceContainer.appendChild(price);
+        const nis = document.createElement("span");
+        nis.innerText = "\u20AA";
+        priceContainer.appendChild(nis);
+        
+        if (itemPriceSmall){
+          const priceDelimiter = document.createElement("span");
+          priceDelimiter.innerText = "/";
+          priceContainer.appendChild(priceDelimiter);
+          const priceSmall = document.createElement("span");
+          priceSmall.innerText = itemPriceSmall;
+          priceContainer.appendChild(priceSmall);
+          const nisSmall = document.createElement("span");
+          nisSmall.innerText = "\u20AA";
+          priceContainer.appendChild(nisSmall);
+        }
+      }
+      
       readSection = function(array, langId, ltr, itemParser, happy = false){
         const menu = document.getElementById(langId);
 
@@ -116,7 +175,8 @@
       }
       
       SECTIONS = [
-        { id : "spirits", file : "test.csv", itemParser : createSpiritItem }
+        { id : "spirits", file : "test.csv", itemParser : createSpiritItem },
+        { id : "drinks", file : "drinks.csv", itemParser : createDrinkItem }
       ];
       
       LANGAUGES = [
