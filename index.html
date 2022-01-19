@@ -151,6 +151,88 @@
         }
       }
       
+      createFoodItem = function(container, item, langId){
+        const name = item["name-" + langId.toLowerCase()];
+        const itemPrice = HAPPY ? item["price-happy"] : item["price-evening"];
+        const itemPriceSmall = HAPPY ? item["price-happy-small"] : item["price-evening-small"];
+        const ingredients = item["ingredients-" + langId.toLowerCase()];
+        const extra = item["extra-" + langId.toLowerCase()];
+        const extraPrice = item["extra-price"];
+        const isVeg = item["veg"];
+        const isSpicy = item["spicy"];
+        
+        const itemEl = document.createElement("div");
+        itemEl.className = "item";
+        container.appendChild(itemEl);
+        
+        const nameContainer = document.createElement("div");
+        itemEl.appendChild(nameContainer);
+        
+        const itemTitle = document.createElement("div");
+        itemTitle.className = "item-title";
+        nameContainer.appendChild(itemTitle);
+        
+        const itemName = document.createElement("div");
+        itemName.innerText = name;
+        itemTitle.appendChild(itemName);
+        
+        if (isVeg){
+          const veg = document.createElement("div");
+          veg.className = "vegeterian";
+          itemTitle.appendChild(veg);
+        }
+        
+        if (isSpicy){
+          const spicy = document.createElement("div");
+          spicy.className = "spicy";
+          itemTitle.appendChild(spicy);
+        }
+        
+        const description = document.createElement("div");
+        description.className = "item-description";
+        nameContainer.appendChild(description);
+        
+        const descText = document.createElement("span");
+        descText.innerText = ingredients;
+        description.appendChild(descText);
+        
+        if (extra){
+          const extraContainer = document.createElement("div");
+          extraContainer.className = "item-extra";
+          nameContainer.appendChild(extraContainer);
+
+          const extraText = document.createElement("span");
+          extraText.innerText = extra + " " + extraPrice;
+          extraContainer.appendChild(extraText);
+          
+          const extraNis = document.createElement("span");
+          extraNis.innerText = "\u20AA";
+          extraContainer.appendChild(extraNis);
+        }
+        
+        const priceContainer = document.createElement("div");
+        itemEl.appendChild(priceContainer);
+        
+        const price = document.createElement("span");
+        price.innerText = itemPrice;
+        priceContainer.appendChild(price);
+        const nis = document.createElement("span");
+        nis.innerText = "\u20AA";
+        priceContainer.appendChild(nis);
+        
+        if (itemPriceSmall){
+          const priceDelimiter = document.createElement("span");
+          priceDelimiter.innerText = "/";
+          priceContainer.appendChild(priceDelimiter);
+          const priceSmall = document.createElement("span");
+          priceSmall.innerText = itemPriceSmall;
+          priceContainer.appendChild(priceSmall);
+          const nisSmall = document.createElement("span");
+          nisSmall.innerText = "\u20AA";
+          priceContainer.appendChild(nisSmall);
+        }
+      }
+      
       readSection = function(array, langId, ltr, itemParser, happy = false){
         const menu = document.getElementById(langId);
 
@@ -177,7 +259,8 @@
       
       SECTIONS = [
         { id : "spirits", file : "test.tsv", itemParser : createSpiritItem },
-        { id : "drinks", file : "drinks.tsv", itemParser : createDrinkItem }
+        { id : "drinks", file : "drinks.tsv", itemParser : createDrinkItem },
+        { id : "food", file : "food.tsv", itemParser : createFoodItem }
       ];
       
       LANGAUGES = [
