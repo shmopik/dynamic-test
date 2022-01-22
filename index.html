@@ -242,7 +242,8 @@
         
         array.forEach(item => {
           const name = item["name-" + langId.toLowerCase()];
-          if (!name)
+          const enName = item["name-en"];
+          if (!name || !enName)
             return;
           
           const groupIdBase = item["category-en"];
@@ -258,7 +259,7 @@
       }
       
       SECTIONS = [
-        { id : "spirits", file : "test.tsv", itemParser : createSpiritItem },
+        { id : "spirits", file : "spirits.tsv", itemParser : createSpiritItem },
         { id : "drinks", file : "drinks.tsv", itemParser : createDrinkItem },
         { id : "food", file : "food.tsv", itemParser : createFoodItem }
       ];
