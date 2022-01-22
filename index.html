@@ -300,23 +300,26 @@
                    const json = parseCsvToArray(text, "\t");
                 
                    LANGAUGES.forEach(lang => {
-                      const langTag = document.createElement("div");
-                      langTag.innerText = lang.id;
-                      langTag.className = "lang-tag"
-                      langTag.addEventListener("click", onLangTagClick)
-                      if (currentLanguage === lang){
-                          langTag.classList.add("active");
-                      }
-                      document.getElementById("lang-container").appendChild(langTag);
+                      const existingLangTag = document.getElementById("lang-tag-" + lang.id.toLowerCase());
+                      if (!existingLangTag){
+                        const langTag = document.createElement("div");
+                        langTag.innerText = lang.id;
+                        langTag.className = "lang-tag"
+                        langTag.addEventListener("click", onLangTagClick)
+                        if (currentLanguage === lang){
+                            langTag.classList.add("active");
+                        }
+                        document.getElementById("lang-container").appendChild(langTag);
 
-                      const langMenu = document.createElement("div");
-                      langMenu.id = lang.id;
-                      langMenu.className = "lang-menu";
-                      document.getElementById("menus-container").appendChild(langMenu);
-                            
-                      readSection(json, lang.id, lang.ltr, section.itemParser, HAPPY);
-                     
-                      setActiveMenu();
+                        const langMenu = document.createElement("div");
+                        langMenu.id = lang.id;
+                        langMenu.className = "lang-menu";
+                        document.getElementById("menus-container").appendChild(langMenu);
+                        
+                        setActiveMenu();
+                      }
+
+                     readSection(json, lang.id, lang.ltr, section.itemParser, HAPPY);
                     })
                 })
             })
