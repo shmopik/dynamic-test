@@ -293,32 +293,33 @@
       }
 
       window.onload = function(){
-          LANGAUGES.forEach(lang => {
-            const langTag = document.createElement("div");
-            langTag.innerText = lang.id;
-            langTag.className = "lang-tag"
-            langTag.addEventListener("click", onLangTagClick)
-            if (currentLanguage === lang){
-                langTag.classList.add("active");
-            }
-            document.getElementById("lang-container").appendChild(langTag);
-            
-            const langMenu = document.createElement("div");
-            langMenu.id = lang.id;
-            langMenu.className = "lang-menu";
-            document.getElementById("menus-container").appendChild(langMenu);
-
             SECTIONS.forEach(section => {
               fetch(section.file)
                 .then(response => response.text())
                 .then(text => {
                    const json = parseCsvToArray(text, "\t");
-                   readSection(json, lang.id, lang.ltr, section.itemParser, HAPPY);
+                
+                   LANGAUGES.forEach(lang => {
+                      const langTag = document.createElement("div");
+                      langTag.innerText = lang.id;
+                      langTag.className = "lang-tag"
+                      langTag.addEventListener("click", onLangTagClick)
+                      if (currentLanguage === lang){
+                          langTag.classList.add("active");
+                      }
+                      document.getElementById("lang-container").appendChild(langTag);
+
+                      const langMenu = document.createElement("div");
+                      langMenu.id = lang.id;
+                      langMenu.className = "lang-menu";
+                      document.getElementById("menus-container").appendChild(langMenu);
+                            
+                      readSection(json, lang.id, lang.ltr, section.itemParser, HAPPY);
+                     
+                      setActiveMenu();
+                    })
                 })
             })
-
-          setActiveMenu();
-        })
       }
     </script>
     <style>
