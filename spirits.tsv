@@ -1,0 +1,80 @@
+category-en	category-he	subcategory-en	subcategory-he	name-en	name-he	price-happy	price-evening
+Whiskey	וויסקי	Irish	אירי	Tullamore D.E.W.	טולימור	22	36
+Whiskey	וויסקי	Irish	אירי	Jameson	גיימסון	22	36
+							
+Whiskey	וויסקי	Bourbon	אמריקאי	Wild Turkey 81	ווילד טרקי 81 	22	36
+Whiskey	וויסקי	Bourbon	אמריקאי	Maker's Mark	מייקרס מארק	26	40
+Whiskey	וויסקי	Bourbon	אמריקאי	Bullet Rye	בולט שיפון	29	42
+Whiskey	וויסקי	Bourbon	אמריקאי	Jack Daniel's	ג'ק דניאלס	28	42
+Whiskey	וויסקי	Bourbon	אמריקאי	Gentleman Jack	ג'נטלמן ג'ק	32	44
+Whiskey	וויסקי	Bourbon	אמריקאי	Woodford Reserve	וודפורד ריזרב	42	58
+							
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Glenfiddich 12	גלנפידיך 12	29	39
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Auchentuschen American Oak	אוכנטושן	29	39
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Monkey Shoulder Blended Malt	מונקי שולדר	29	39
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Singleton	סינגלטון	29	39
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Glenlivett	גלנליווט	29	42
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Glenmorangy 10	גלנמורנג'י 10	29	42
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Monky Shoulder Smokey Monkey	מנקי סמוקי	29	44
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Lafroig Select	לאפרויג סלקט	29	44
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Glengoyan 10	גלנגוין 10	29	44
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Talisker 10	טליסקר 10	32	44
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Talisker Storm	טליסקר סטורם	32	48
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Belvini 12	בלוויני 12	32	48
+Whiskey	וויסקי	Single Malt	סינגל מאלט	Macallan 12	מקלן 12	42	58
+							
+Vodka	וודקה			Stolichnaya	סטולי	22	36
+Vodka	וודקה			Zubruwka	זוברובקה	24	36
+Vodka	וודקה			Ketel One	קטל 1	26	40
+Vodka	וודקה			Gray Goose	גרייגוס	30	48
+							
+Anis	אניס				ערק יודה	17	26
+Anis	אניס			Arak Elite	ערק עלית	17	26
+Anis	אניס			Ouzo Metaxa	אוזו מטקסה	17	26
+							
+Gin	ג'ין			Heimann's	היימנס	22	36
+Gin	ג'ין			Link & Honey	מילק אנד האני	25	38
+Gin	ג'ין			Bombay	בומביי	24	38
+Gin	ג'ין			Bols Jeniver	בולס ג'ניבר	24	38
+Gin	ג'ין				טנקרי	26	40
+Gin	ג'ין			Hendrick's	הנדריקס	29	44
+Gin	ג'ין			Tanqueray 10	טנקרי 10 	34	46
+							
+Tequila	טקילה			Milagro Silver	מילגרו סילבר	24	36
+Tequila	טקילה			Patron Silver	פטרון סילבר	29	39
+Tequila	טקילה			Patron Reposado	פטרון ריפוסדו	32	46
+Tequila	טקילה			Don Julio Blanco	דון חוליו בלאנקו	29	48
+Tequila	טקילה			Vida Mezcal	מסקל וידה	32	46
+Tequila	טקילה			Milagro Select Bianco	מילגרו סלקט בלנקו	38	54
+Tequila	טקילה			Milagro Select Añejo	מילגרו סלקט אנייחו	52	66
+							
+Rum	רום			Bacardi Blanco	בקרדי לבן	22	36
+Rum	רום			Sailor Jerry	סיילור ג'רי	22	36
+Rum	רום			Captain Morgan Spice	קפטן מורגן	22	36
+Rum	רום				רום לבן פלנטיישן	22	38
+Rum	רום			Plantation Grand Reserve	פלנשטיישן גרנד ריזרב	29	44
+Rum	רום			Plantation Pineapple	פלנטיישן אננס	29	44
+Rum	רום			Zacappa 23	זאקפה 23	32	46
+							
+Brandy	ברנדי			Metaxa 5 Stars	מטקסה	22	34
+Brandy	ברנדי			Calvados Chateau de Bruilly	קלבדוס	25	38
+Brandy	ברנדי			Hennessey VS	הנסי VS	27	42
+Brandy	ברנדי			Remy Martin VSOP	רמי VSOP	29	44
+Brandy	ברנדי			Remy Martin 1738	רמי 1738	42	58
+							
+Degestif	דג'סטיף			Becherovka	בחרובקה	21	32
+Degestif	דג'סטיף			Jeggermeister	ייגר	24	38
+Degestif	דג'סטיף			Fernet Branca	פרנה	24	38
+Degestif	דג'סטיף			Green Chartreous	שרטרז ירוק	30	46
+							
+Aperitif	אפרטיף			Cinzano Rosso	צינזנו רוסו	17	28
+Aperitif	אפרטיף				צינזנו ביאנקו	17	28
+Aperitif	אפרטיף			Martini Bianco	מרטיני ביאנקו	17	28
+Aperitif	אפרטיף				צינזנו דריי	17	28
+Aperitif	אפרטיף			Martini Dry	מרטיני דריי	17	28
+Aperitif	אפרטיף			Aperol	אפרול	19	32
+Aperitif	אפרטיף			Campary	קמפרי	22	34
+Aperitif	אפרטיף			Vedeta 52 Bianco	ודטה ביאנקו	27	36
+Aperitif	אפרטיף			Vedeta 52 Dry	ודטה דריי	27	36
+Aperitif	אפרטיף			Vedeta 52 Rosso	ודטה רוסו	29	36
+Aperitif	אפרטיף			Vedeta Bitter Aperitif	ודטה ביטר אפרטיף	29	38
