@@ -304,6 +304,7 @@
                       if (!existingLangTag){
                         const langTag = document.createElement("div");
                         langTag.innerText = lang.id;
+                        langTag.id = "lang-tag-" + lang.id.toLowerCase();
                         langTag.className = "lang-tag"
                         langTag.addEventListener("click", onLangTagClick)
                         if (currentLanguage === lang){
