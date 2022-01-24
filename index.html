@@ -308,20 +308,19 @@
             langMenu.className = "lang-menu";
             document.getElementById("menus-container").appendChild(langMenu);
 
-            Promise.all(
-              SECTIONS.map(section => {
-                return fetch(section.file)
-                  .then(response => {
-                    return {text : response.text(), itemParser : section.itemParser}
-                })
-              }))
-                .then(results => {
+            Promise.all(SECTIONS.map(section => {
+              return { response : fetch(section.file), itemParser : section.itemParser }
+            }).then(results => {
+              Promise.all(results.map(result => {
+                return { text : result.response.text(), itemParser : result.itemParser }
+              })
+            }).then(results => {
                    results.forEach(result => {
                      const json = parseCsvToArray(result.text, "\t");
                      readSection(json, lang.id, lang.ltr, result.itemParser, HAPPY);
                    })
                 })
-
+            
           setActiveMenu();
         })
       }
