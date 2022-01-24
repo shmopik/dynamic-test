@@ -310,10 +310,10 @@
 
             Promise.all(SECTIONS.map(section => {
               return { response : fetch(section.file), itemParser : section.itemParser }
-            }).then(results => {
+            })).then(results => {
               Promise.all(results.map(result => {
                 return { text : result.response.text(), itemParser : result.itemParser }
-              })
+              }))
             }).then(results => {
                    results.forEach(result => {
                      const json = parseCsvToArray(result.text, "\t");
