@@ -310,7 +310,7 @@
 
             Promise.all(
               SECTIONS.map(section => {
-                fetch(section.file)
+                return fetch(section.file)
                   .then(response => {
                     return response.text()
                 })
