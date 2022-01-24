@@ -312,13 +312,13 @@
               SECTIONS.map(section => {
                 return fetch(section.file)
                   .then(response => {
-                    return response.text()
+                    return {text : response.text(), itemParser : section.itemParser}
                 })
               }))
-                .then(texts => {
-                   texts.forEach(text => {
-                     const json = parseCsvToArray(text, "\t");
-                     readSection(json, lang.id, lang.ltr, section.itemParser, HAPPY);
+                .then(results => {
+                   results.forEach(result => {
+                     const json = parseCsvToArray(result.text, "\t");
+                     readSection(json, lang.id, lang.ltr, result.itemParser, HAPPY);
                    })
                 })
 
