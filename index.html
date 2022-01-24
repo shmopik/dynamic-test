@@ -308,7 +308,12 @@
             langMenu.className = "lang-menu";
             document.getElementById("menus-container").appendChild(langMenu);
 
-            Promise.all(SECTIONS.map(section => fetch(section.file).then(response => response.text()))
+            Promise.all(
+              SECTIONS.map(
+                section => fetch(section.file)
+                  .then(response => response.text())
+                )
+              )
                 .then(texts => {
                    texts.forEach(text => {
                      const json = parseCsvToArray(text, "\t");
