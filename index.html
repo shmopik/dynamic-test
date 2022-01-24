@@ -308,19 +308,15 @@
             langMenu.className = "lang-menu";
             document.getElementById("menus-container").appendChild(langMenu);
 
-            Promise.all(SECTIONS.map(section => {
-              return { response : fetch(section.file), itemParser : section.itemParser }
-            })).then(results => {
-              Promise.all(results.map(result => {
-                return { text : result.response.text(), itemParser : result.itemParser }
-              }))
-            }).then(results => {
-                   results.forEach(result => {
-                     const json = parseCsvToArray(result.text, "\t");
-                     readSection(json, lang.id, lang.ltr, result.itemParser, HAPPY);
-                   })
+            SECTIONS.forEach(section => {
+              fetch(section.file)
+                .then(response => response.text())
+                .then(text => {
+                   const json = parseCsvToArray(text, "\t");
+                   readSection(json, lang.id, lang.ltr, section.itemParser, HAPPY);
                 })
-            
+            })
+
           setActiveMenu();
         })
       }
@@ -418,7 +414,7 @@
 
         .main-description{
             font-weight: 600;
-            margin-inline-end: 7px;
+            margin-inline-left: 7px;
         }
 
         .comment{
