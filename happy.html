@@ -259,6 +259,7 @@
       }
       
       SECTIONS = [
+        { id : "chasers", file : "chasers.tsv", itemParser : createSpiritItem },
         { id : "spirits", file : "spirits.tsv", itemParser : createSpiritItem },
         { id : "drinks", file : "drinks.tsv", itemParser : createDrinkItem },
         { id : "food", file : "food.tsv", itemParser : createFoodItem }
