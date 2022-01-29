@@ -321,7 +321,7 @@
             
             Promise.all(SECTIONS.map(sec => fetch(sec.file).then(resp => resp.text())))
             .then(lists => {
-                lists.forEach((list, i) => {
+                lists.forEach((text, i) => {
                    const json = parseCsvToArray(text, "\t");
                    readSection(json, lang.id, lang.ltr, SECTIONS[i].itemParser, HAPPY);
                 })
