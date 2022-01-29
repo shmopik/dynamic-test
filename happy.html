@@ -308,12 +308,11 @@
             langMenu.className = "lang-menu";
             document.getElementById("menus-container").appendChild(langMenu);
 
-            SECTIONS.forEach(section => {
-              fetch(section.file)
-                .then(response => response.text())
-                .then(text => {
+            Promise.all(SECTIONS.map(sec => fetch(sec.file).then(resp => resp.text())))
+            .then(lists => {
+                lists.forEach((text, i) => {
                    const json = parseCsvToArray(text, "\t");
-                   readSection(json, lang.id, lang.ltr, section.itemParser, HAPPY);
+                   readSection(json, lang.id, lang.ltr, SECTIONS[i].itemParser, HAPPY);
                 })
             })
 
