@@ -307,17 +307,6 @@
             langMenu.id = lang.id;
             langMenu.className = "lang-menu";
             document.getElementById("menus-container").appendChild(langMenu);
-
-            /*
-            SECTIONS.forEach(section => {
-              fetch(section.file)
-                .then(response => response.text())
-                .then(text => {
-                   const json = parseCsvToArray(text, "\t");
-                   readSection(json, lang.id, lang.ltr, section.itemParser, HAPPY);
-                })
-            })
-            */
             
             Promise.all(SECTIONS.map(sec => fetch(sec.file).then(resp => resp.text())))
             .then(lists => {
