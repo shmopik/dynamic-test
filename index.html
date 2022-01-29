@@ -313,10 +313,10 @@
                 lists.forEach((text, i) => {
                    const json = parseCsvToArray(text, "\t");
                    readSection(json, lang.id, lang.ltr, SECTIONS[i].itemParser, HAPPY);
-                })
+                });
+              
+                setActiveMenu();
             })
-
-          setActiveMenu();
         })
       }
     </script>
