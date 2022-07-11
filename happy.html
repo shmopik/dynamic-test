@@ -464,6 +464,23 @@
             height: 60px;
             background-size: 100%;
         }
+      
+      #top-row{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      #switch-link-container{
+        margin-top: 30px;
+        margin-right: 40px;
+        font-size: 24;
+      }
+      
+      #switch-link{
+        color: black;
+        opacity: 0.6;
+      }
 
         #lang-container{
             height: 60px;
@@ -493,7 +510,12 @@
     </style>
   </head>
   <body>
-    <div id="lang-container"></div>
+    <div id="top-row">
+      <div id="lang-container"></div>
+      <div id="switch-link-container">
+        <a id="switch-link" href="happy.html">Click for EVENING MENU</a>
+      </div>
+    </div>
     <div style="margin: 24px 0 24px 0">
         <img src="./happy-header-new.png" style="width:100%">
     </div>
