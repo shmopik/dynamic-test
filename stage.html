@@ -1,0 +1,533 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <script lang="javascript">      
+      parseCsvToArray = function(csv,delimiter = ","){
+        const cleanCsv = csv.replaceAll("\n\r", "\n").replaceAll("\r\n", "\n");
+        const headers = cleanCsv.slice(0, cleanCsv.indexOf("\n")).split(delimiter);
+        const rows = cleanCsv.slice(cleanCsv.indexOf("\n") + 1).split("\n");
+
+        const arr = rows.map(function (row) {
+          const values = row.split(delimiter);
+          const el = headers.reduce(function (object, header, index) {
+            object[header] = values[index];
+            return object;
+          }, {});
+          return el;
+        });
+
+        return arr;
+      }
+      
+      findOrCreateGroup = function(section, groupId, groupName, subgroupId, subgroupName, ltr){
+        let group = document.getElementById(groupId);
+        if (group === null){
+          group = document.createElement("div");
+          group.className = "group";
+          group.id = groupId;
+          section.appendChild(group);
+
+          let groupHeader = document.createElement("div");
+          groupHeader.className = "header" + (ltr ? " ltr" : "");
+          groupHeader.id = groupId + "-header";
+          groupHeader.innerText = groupName;
+          group.appendChild(groupHeader);
+        }
+
+        const groupContainerId = subgroupId ? groupId + "-" + subgroupId + "-group-container" : groupId + "-group-container";
+        let groupContainer = document.getElementById(groupContainerId);
+        if (groupContainer === null){
+          groupContainer = document.createElement("div");
+          groupContainer.className = "group-container" + (ltr ? " ltr" : "");
+          groupContainer.id = groupContainerId;
+          group.appendChild(groupContainer);
+          
+          if (subgroupId){
+            const subgroupHeader = document.createElement("div");
+            subgroupHeader.className = "group-header";
+            groupContainer.appendChild(subgroupHeader);
+            
+            const subgroupHeaderText = document.createElement("div");
+            subgroupHeaderText.className = "group-header-text" + (ltr ? " ltr" : "");
+            subgroupHeaderText.innerText = subgroupName;
+            subgroupHeader.appendChild(subgroupHeaderText);
+          }
+        }
+        
+        const itemsContainerId = subgroupId ? groupId + "-" + subgroupId + "-items-container" : groupId + "-items-container";
+        let itemsContainer = document.getElementById(itemsContainerId);
+        if (itemsContainer === null){
+          itemsContainer = document.createElement("div");
+          itemsContainer.id = itemsContainerId;
+          itemsContainer.className = "items-container";
+          groupContainer.appendChild(itemsContainer);
+        }
+        
+        return itemsContainer;
+      }
+      
+      createSpiritItem = function(container, item, langId){
+        const name = item["name-" + langId.toLowerCase()];
+        const itemPrice = HAPPY ? item["price-happy"] : item["price-evening"];
+        
+        const itemEl = document.createElement("div");
+        itemEl.className = "item";
+        container.appendChild(itemEl);
+        
+        const itemName = document.createElement("div");
+        itemName.innerText = name;
+        itemEl.appendChild(itemName);
+        
+        const priceContainer = document.createElement("div");
+        itemEl.appendChild(priceContainer);
+        
+        const price = document.createElement("span");
+        price.innerText = itemPrice;
+        priceContainer.appendChild(price);
+        const nis = document.createElement("span");
+        nis.innerText = "\u20AA";
+        priceContainer.appendChild(nis);
+      }
+      
+      createDrinkItem = function(container, item, langId){
+        const name = item["name-" + langId.toLowerCase()];
+        const itemPrice = HAPPY ? item["price-happy"] : item["price-evening"];
+        const itemPriceSmall = HAPPY ? item["price-happy-small"] : item["price-evening-small"];
+        const mainDesc = item["main-desc-" + langId.toLowerCase()];
+        const otherDesc = item["other-desc-" + langId.toLowerCase()];
+        
+        const itemEl = document.createElement("div");
+        itemEl.className = "item";
+        container.appendChild(itemEl);
+        
+        if (mainDesc){
+          const nameContainer = document.createElement("div");
+          itemEl.appendChild(nameContainer);
+          
+          const itemName = document.createElement("div");
+          itemName.innerText = name;
+          nameContainer.appendChild(itemName);
+          
+          const descEl = document.createElement("div");
+          descEl.className = "item-description";
+          nameContainer.appendChild(descEl);
+          
+          const mainDescEl = document.createElement("span");
+          mainDescEl.className = "main-description";
+          mainDescEl.innerText = mainDesc;
+          descEl.appendChild(mainDescEl);
+          const otherDescEl = document.createElement("span");
+          otherDescEl.innerText = otherDesc;
+          descEl.appendChild(otherDescEl);
+        } else {
+          const itemName = document.createElement("div");
+          itemName.innerText = name;
+          itemEl.appendChild(itemName);
+        }
+        
+        const priceContainer = document.createElement("div");
+        itemEl.appendChild(priceContainer);
+        
+        const price = document.createElement("span");
+        price.innerText = itemPrice;
+        priceContainer.appendChild(price);
+        const nis = document.createElement("span");
+        nis.innerText = "\u20AA";
+        priceContainer.appendChild(nis);
+        
+        if (itemPriceSmall){
+          const priceDelimiter = document.createElement("span");
+          priceDelimiter.innerText = "/";
+          priceContainer.appendChild(priceDelimiter);
+          const priceSmall = document.createElement("span");
+          priceSmall.innerText = itemPriceSmall;
+          priceContainer.appendChild(priceSmall);
+          const nisSmall = document.createElement("span");
+          nisSmall.innerText = "\u20AA";
+          priceContainer.appendChild(nisSmall);
+        }
+      }
+      
+      createFoodItem = function(container, item, langId){
+        const name = item["name-" + langId.toLowerCase()];
+        const itemPrice = HAPPY ? item["price-happy"] : item["price-evening"];
+        const itemPriceSmall = HAPPY ? item["price-happy-small"] : item["price-evening-small"];
+        const ingredients = item["ingredients-" + langId.toLowerCase()];
+        const extra = item["extra-" + langId.toLowerCase()];
+        const extraPrice = item["extra-price"];
+        const isVeg = item["veg"];
+        const isSpicy = item["spicy"];
+        
+        const itemEl = document.createElement("div");
+        itemEl.className = "item";
+        container.appendChild(itemEl);
+        
+        const nameContainer = document.createElement("div");
+        itemEl.appendChild(nameContainer);
+        
+        const itemTitle = document.createElement("div");
+        itemTitle.className = "item-title";
+        nameContainer.appendChild(itemTitle);
+        
+        const itemName = document.createElement("div");
+        itemName.innerText = name;
+        itemTitle.appendChild(itemName);
+        
+        if (isVeg){
+          const veg = document.createElement("div");
+          veg.className = "vegeterian";
+          itemTitle.appendChild(veg);
+        }
+        
+        if (isSpicy){
+          const spicy = document.createElement("div");
+          spicy.className = "spicy";
+          itemTitle.appendChild(spicy);
+        }
+        
+        const description = document.createElement("div");
+        description.className = "item-description";
+        nameContainer.appendChild(description);
+        
+        const descText = document.createElement("span");
+        descText.innerText = ingredients;
+        description.appendChild(descText);
+        
+        if (extra){
+          const extraContainer = document.createElement("div");
+          extraContainer.className = "item-extra";
+          nameContainer.appendChild(extraContainer);
+
+          const extraText = document.createElement("span");
+          extraText.innerText = extra + " " + extraPrice;
+          extraContainer.appendChild(extraText);
+          
+          const extraNis = document.createElement("span");
+          extraNis.innerText = "\u20AA";
+          extraContainer.appendChild(extraNis);
+        }
+        
+        const priceContainer = document.createElement("div");
+        itemEl.appendChild(priceContainer);
+        
+        const price = document.createElement("span");
+        price.innerText = itemPrice;
+        priceContainer.appendChild(price);
+        const nis = document.createElement("span");
+        nis.innerText = "\u20AA";
+        priceContainer.appendChild(nis);
+        
+        if (itemPriceSmall){
+          const priceDelimiter = document.createElement("span");
+          priceDelimiter.innerText = "/";
+          priceContainer.appendChild(priceDelimiter);
+          const priceSmall = document.createElement("span");
+          priceSmall.innerText = itemPriceSmall;
+          priceContainer.appendChild(priceSmall);
+          const nisSmall = document.createElement("span");
+          nisSmall.innerText = "\u20AA";
+          priceContainer.appendChild(nisSmall);
+        }
+      }
+      
+      readSection = function(array, langId, ltr, itemParser, happy = false){
+        const menu = document.getElementById(langId);
+
+        const section = document.createElement("div");
+        section.className = "section";
+        menu.appendChild(section);
+        
+        array.forEach(item => {
+          const name = item["name-" + langId.toLowerCase()];
+          const enName = item["name-en"];
+          if (!name || !enName)
+            return;
+          
+          const groupIdBase = item["category-en"];
+          const groupId = (groupIdBase + "-" + langId).toLowerCase();
+          const groupName = item["category-" + langId.toLowerCase()];
+          const subgroupIdBase = item["subcategory-en"];
+          const subgroupId = subgroupIdBase ? (subgroupIdBase + "-" + langId).toLowerCase() : null;
+          const subgroupName = item["subcategory-" + langId.toLowerCase()];
+          
+          const itemContainer = findOrCreateGroup(section, groupId, groupName, subgroupId, subgroupName, ltr);
+          itemParser(itemContainer, item, langId);
+        })
+      }
+      
+      SECTIONS = [
+        { id : "spirits", file : "spirits.tsv", itemParser : createSpiritItem },
+        { id : "drinks", file : "drinks-new.tsv", itemParser : createDrinkItem },
+        { id : "food", file : "food-new.tsv", itemParser : createFoodItem }
+      ];
+      
+      LANGAUGES = [
+        { id : "HE", ltr : false }, 
+        { id : "EN", ltr : true}
+      ];
+      
+      HAPPY = false;
+      currentLanguage = window.localStorage.getItem("lang") || LANGAUGES[0].id;
+
+      setActiveMenu = function(){
+          let menus = document.getElementsByClassName("lang-menu");
+          for (let i = 0; i < menus.length; i++) {
+              if (menus[i].id === currentLanguage){
+                  menus[i].style.display = "block";
+                  document.getElementById("lang-container").children[i].classList.add("active");
+              }
+              else{
+                  menus[i].style.display = "none";
+                  document.getElementById("lang-container").children[i].classList.remove("active");
+              }
+          }
+      }
+
+      onLangTagClick = function(e){
+          currentLanguage = e.target.innerText;
+          window.localStorage.setItem("lang", currentLanguage);
+          setActiveMenu();
+      }
+
+      window.onload = function(){
+          LANGAUGES.forEach(lang => {
+            const langTag = document.createElement("div");
+            langTag.innerText = lang.id;
+            langTag.className = "lang-tag"
+            langTag.addEventListener("click", onLangTagClick)
+            if (currentLanguage === lang){
+                langTag.classList.add("active");
+            }
+            document.getElementById("lang-container").appendChild(langTag);
+            
+            const langMenu = document.createElement("div");
+            langMenu.id = lang.id;
+            langMenu.className = "lang-menu";
+            document.getElementById("menus-container").appendChild(langMenu);
+            
+            Promise.all(SECTIONS.map(sec => fetch(sec.file).then(resp => resp.text())))
+            .then(lists => {
+                lists.forEach((text, i) => {
+                   const json = parseCsvToArray(text, "\t");
+                   readSection(json, lang.id, lang.ltr, SECTIONS[i].itemParser, HAPPY);
+                });
+              
+                setActiveMenu();
+            })
+        })
+      }
+    </script>
+    <style>
+        body{
+            background: black;
+            color: white;
+            font-family: Heebo,serif;
+        }
+
+        .group{
+            margin: 64px 64px 48px 64px;
+        }
+
+        .group:last-child{
+            margin-bottom: 0;
+        }
+
+        .header{
+            background: white;
+            color: black;
+            font-size: 48px;
+            text-align: right;
+            padding: 0 12px;
+            font-weight: 500;
+        }
+
+        .header.ltr{
+            text-align: left;
+        }
+
+        .group-container{
+            display: flex;
+            direction: rtl;
+            margin-top:18px;
+        }
+
+        .group-container.ltr{
+            direction: ltr;
+        }
+
+        .group-header{
+            background: #f7b400;
+            padding: 8px 0;
+        }
+
+        .group-header.medium{
+            background: #f9c533;
+        }
+
+        .group-header.light{
+            background: #fad266;
+        }
+
+        .group-header-text{
+            color: black;
+            transform: rotate(-90deg);
+            line-height: 36px;
+            font-size: 36px;
+            font-weight: 500;
+            width: 40px;
+            white-space: nowrap;
+        }
+
+        .group-header-text.ltr{
+            transform: rotate(90deg);
+            text-transform: uppercase;
+        }
+
+        .items-container{
+            flex-grow: 1;
+            margin: 0 12px;
+        }
+
+        .item{
+            display: flex;
+            justify-content: space-between;
+            font-size: 36px;
+            margin-bottom: 12px;
+            white-space: nowrap;
+        }
+
+        .item-description{
+            font-size: 30px;
+            margin-top: -12px;
+            white-space: normal;
+        }
+
+        .item-extra{
+            font-size: 30px;
+            margin-top: -6px;
+            font-weight: bold;
+        }
+
+        .main-description{
+            font-weight: 600;
+            margin-inline-end: 7px;
+        }
+
+        .comment{
+            font-size: 16px;
+            margin: 16px 64px;
+            direction: rtl;
+        }
+
+        .comment.ltr{
+            direction: ltr;
+        }
+
+        .item-title{
+            display: flex;
+        }
+
+        .vegeterian{
+            background-image: url("./vegeterian-light.png");
+            width: 36px;
+            height: 36px;
+            margin: 0 12px;
+            background-size: 100%;
+            position: relative;
+            top: 6px;
+        }
+
+        .spicy{
+            background-image: url("./spicy-light.png");
+            width: 36px;
+            height: 36px;
+            margin: 0 12px;
+            background-size: 100%;
+            position: relative;
+            top: 6px;
+        }
+
+        .whatsapp{
+            background-image: url("./whatsapp-white.png");
+            width: 60px;
+            height: 60px;
+            background-size: 100%;
+        }
+
+        .instagram{
+            background-image: url("./instagram-white.png");
+            width: 60px;
+            height: 60px;
+            background-size: 100%;
+        }
+      
+      #top-row{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      #switch-link-container{
+        margin-top: 30px;
+        margin-right: 40px;
+        font-size: 24;
+      }
+      
+      #switch-link{
+        color: white;
+        opacity: 0.6;
+      }
+
+        #lang-container{
+            height: 60px;
+            display: flex;
+            color: white;
+            font-size: 36px;
+            margin-top: 30px;
+            margin-left: 40px;
+        }
+
+        #lang-container > * {
+            margin-left: 20px;
+        }
+        
+        .lang-menu{
+            display: none;
+        }
+
+        .lang-tag{
+            opacity: 0.6;
+        }
+
+        .lang-tag.active{
+            opacity: 1;
+            font-weight: bold;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="top-row">
+      <div id="lang-container"></div>
+      <div id="switch-link-container">
+        <a id="switch-link" href="happy-stage.html">Click for HAPPY HOUR MENU</a>
+      </div>
+    </div>
+    <div style="margin: 24px 0 24px 0">
+        <img src="./evening-header.png" style="width:100%">
+    </div>
+    <div style="display: flex; justify-content: space-between; margin: 0 110px;">
+        <div style="display: flex;align-items: center">
+            <div class="instagram"></div>
+            <div style="font-size: 36px; margin-left: 20px">@brancabartlv</div>
+        </div>
+        <div style="display: flex;align-items: center">
+            <div class="whatsapp"></div>
+            <div style="font-size: 36px; margin-left: 20px; text-decoration: none; color: white; cursor: text">054-586-9430</div>
+        </div>
+    </div>
+    <div id="menus-container"></div>
+  </body>
+</html>
